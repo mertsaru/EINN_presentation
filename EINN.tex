@@ -1,0 +1,134 @@
+\documentclass[
+	aspectratio=169,	% Modern aspect ratio (TODO: Other ratios not yet supported)
+	onlytextwidth,		% Sets totalwidth=\textwidth and therefore e.g. columns won't invade the margins
+	t,					% Default vertical alignment of frames and colums at top (default is centered) % Stored in \beamer@centered (\beamer@centeredfalse, \beamer@centeredtrue)
+%	handout,			% Create a basic handout of the presentation (removes overlays)
+	]{beamer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1) Load the desired presentation theme
+\usetheme[
+% Individual options to customize the presentation conforming to the corporate design
+	hs,					% Change default faculty color set and predefined faculty values: hs or <empty> (default), inw, cb, me, sw, wi, inst (\renewcommand{\insertfacultyname}{Institutname} needed)
+	language=english,	% Change language to english (default: ngerman), other languages are possible (see babel-package) but may need further adjustments 
+	toc,				% Adds a ToC slide
+	sectionslide,		% Display separate section slides
+	subsectionslide,		% Display separate subsection slides containing section and subsection name
+%	smallpagenumber,	% Reduces the size of the page number
+%	nototalpages,		% Hides the total number of slide in footline
+%	nofacultyicon,		% Hides the faculty icon on title page
+	colormath=nottext,	% Enables coloring of math text: off or <empty>, full, nottext (default)
+%	printhandout,		% Places two slides on a single a4 paper for printing the presentation (beamer class option 'handout' needed)
+%	noframesubtitle,	% Disables frame subtitles alltogether and slightly increases frame height
+% Additional style options not completely conforming to the corporate design
+	titlepagedate,		% Shows the date on the titelpage
+	fancystyle,			% Enables some fancy styles, that are not part of the corporate design specifications (default: off)
+%	progressbar,		% Shows the progressbar in footline (run twice to update progressbar)
+	]{hsmw} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2) Specify default fields for presentation and pdf document properties
+% Set the title: \title{Long title everywhere} or \title[Short title for footline]{Long title for titlepage}
+\title[Cognitive Science and Machine Learning]{Cognitive Science and Machine Learning}
+\subtitle{}
+% Authors (separate multiple author names e.g. with \and for additional space): \author{author for everywhere} or \author[author for footline]{author for titlepage and thankyouslide}
+\author[Mert Saruhan]{Mert Saruhan, B.Sc.}
+% Institute (will be prefilled automatically, depending on chosen faculty theme option): \institute{institute for everywhere} or \institute[institute for footline and thankyouslide]{institute for titlepage}
+%\institute[Fakultät Angewandte Computer und Biowissenschaften]{Fakultät Angewandte Computer und Biowissenschaften}
+% Date of presentation (\today or a fixed value): \date{date for everywhere} or \date[date for footline]{date for titlepage}
+\date{\today} % 22. März 2022
+% Impressum for thankyou slide (leave one empty if not wanted or needed):
+\email{msaruhan@hs-mittweida.de} % \email{E-Mail}
+\courseofstudies{Mathematics for Network and Data Science (MA20w1-M)} % \courseofstudies{Course of Studies (Group Number)}
+%\additional[Sidebar Text]{Main Text} % Additional information you may want to give (Department, Module, etc.) \additional[Sidebar Text]{Main Text}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3) Use features
+% Titlegraphic changes the title page to "wide" (default) if left empty or inserts given image (by file path) and scales to 6.2cm height otherwise:
+\titlegraphic{} %\titlegraphic{figures/thankyou.jpg}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4) Add bibliography
+% Load the package and options you like, e.g. for recommended ieee style in combination of biblatex and biber:
+\usepackage[backend=biber, bibstyle=ieee, citestyle=numeric-comp, sorting=none, natbib=true, hyperref=true, dashed=false]{biblatex}
+% Add your bibliography file(s)
+\addbibresource{ref.bib} 
+% Dont forget to use \makebibliography where you want to put it, e.g. at the end of your presentation, after the "normal" slides:
+% \appendix
+% \makebibliography
+% Compile with following command sequence to fully include bibliography: pdflatex, biber, pdflatex, pdflatex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 5) Existing macro usage examples
+
+% \appendix is used as end marker for slides (slide numbers and progressbar)
+% \makethankyou creates a thank you slide and is used as end marker for slides (progressbar)
+% \makebibliography creates one or multiple bibliography slides
+
+% For multiple speakers you can use \setcurrentspeaker{speaker name} or \setcurrentspeaker*{speaker name} prior to the frame
+% To reset to the default author, use \resetcurrentspeaker{} or \resetcurrentspeaker*{}
+% Starred versions of these macros prepend the word "speaker"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 6) Import additional packages you need, (re-)define macros and create a wonderful latex presentation
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\setbeamertemplate{caption}{\insertcaption}
+\usepackage{xcolor}
+% You can remove this package - it is only needed for the dummy content
+\usepackage{blindtext}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+	\section{What is EINN?}
+	
+	\begin{frame}[fragile]{What is EINN?}{Introduction}
+
+		\begin{itemize}
+			\item<1-> EINN is a (\textbf{Neural Network}) machine learning model to predict epidemic dynamics 
+			\item<2-> EINN combines the knowledge of PINN, RNN, and ODE
+		\end{itemize}
+	
+	\end{frame}
+
+	\begin{frame}[fragile]{What is EINN?}{Introduction}
+
+	\end{frame}
+
+	\begin{frame}[fragile]{What is EINN?}{ODE}
+	
+	\end{frame}
+
+	\begin{frame}[fragile]{What is EINN?}{RNN}
+	
+	\end{frame}
+
+	\begin{frame}[fragile]{What is EINN?}{PINN}
+	
+	\end{frame}
+
+	\section{How does EINN work?}
+
+	\begin{frame}[fragile]{How does EINN work?}{Structure}
+	
+	\end{frame}
+
+	\begin{frame}[fragile]{How does EINN work?}{}
+	
+	\end{frame}
+
+	\section{Results}
+
+	\begin{frame}[fragile]{Results}{}
+	
+	\end{frame}
+
+
+	\appendix
+	
+	\makebibliography
+
+	\makethankyou
+
+\end{document}
