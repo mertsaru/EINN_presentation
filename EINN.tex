@@ -29,7 +29,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 2) Specify default fields for presentation and pdf document properties
 % Set the title: \title{Long title everywhere} or \title[Short title for footline]{Long title for titlepage}
-\title[Cognitive Science and Machine Learning]{Cognitive Science and Machine Learning}
+\title[EINN: Epidemic Prediction using ML]{EINN: Epidemic Prediction using ML}
 \subtitle{}
 % Authors (separate multiple author names e.g. with \and for additional space): \author{author for everywhere} or \author[author for footline]{author for titlepage and thankyouslide}
 \author[Mert Saruhan]{Mert Saruhan, B.Sc.}
@@ -75,60 +75,182 @@
 \usetikzlibrary{arrows.meta}
 \setbeamertemplate{caption}{\insertcaption}
 \usepackage{xcolor}
-% You can remove this package - it is only needed for the dummy content
-\usepackage{blindtext}
+\usepackage{amsmath}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-	\section{What is EINN?}
-	
-	\begin{frame}[fragile]{What is EINN?}{Introduction}
+\section{What is EINN?}
 
-		\begin{itemize}
-			\item<1-> EINN is a (\textbf{Neural Network}) machine learning model to predict epidemic dynamics 
-			\item<2-> EINN combines the knowledge of PINN, RNN, and ODE
-		\end{itemize}
-	
-	\end{frame}
+\begin{frame}[fragile]{What is EINN?}{Introduction}
 
-	\begin{frame}[fragile]{What is EINN?}{Introduction}
+	\begin{itemize}
+		\item<1-> EINN is a (\textbf{Neural Network}) machine learning model to predict epidemic dynamics~\cite{main}
+		\item<2-> EINN combines the knowledge of PINN, RNN, and ODE~\cite{main}
+	\end{itemize}
 
-	\end{frame}
+\end{frame}
 
-	\begin{frame}[fragile]{What is EINN?}{ODE}
-	
-	\end{frame}
+\section{Background}
 
-	\begin{frame}[fragile]{What is EINN?}{RNN}
-	
-	\end{frame}
+\begin{frame}[fragile]{Background}{SIR epidemic models}
+	\begin{itemize}
+		\item<1-> Statical way to predict epidemic dynamics
+		\item<2-> Uses ODE to predict
+		\item<3-> Have many models: SIR, SEIR, SEIRM etc.
+		\item<4-> Susceptible (S): $\frac{dS_{t}}{dt} = - \beta_{t} \frac{S_{t}I_{t}}{N}$
+		\item<5-> Exposed (E): $\frac{dE_{t}}{dt} = \beta_{t} \frac{S_{t}I_{t}}{N} - \alpha_{t}E_{t}$
+		\item<6-> Infected (I): $\frac{dI_{t}}{dt} = \alpha_{t}E_{t} - \gamma_{t}I_{t} - \mu_{t}I_{t}$
+		\item<7-> Recovered (R): $ \frac{dR_{t}}{dt} = \gamma_{t} I_{t}$
+		\item<8-> Mortality (M): $\frac{dM_{t}}{dt} = \mu_{t}I_{t}$
+	\end{itemize}
+	\vfill
+	Note: $\Omega_{t} =\{\alpha_{t}, \beta_{t}, \gamma_{t}, \mu_{t} \}$ are parameters, $N$ is the population number, and $t$ is time.
 
-	\begin{frame}[fragile]{What is EINN?}{PINN}
-	
-	\end{frame}
+\end{frame}
 
-	\section{How does EINN work?}
+\begin{frame}[fragile]{Background}{RNN}
+	\begin{columns}
+		\begin{column}[T]{.33\textwidth}
 
-	\begin{frame}[fragile]{How does EINN work?}{Structure}
-	
-	\end{frame}
+			\begin{itemize}
+				\item<1-> RNN is a neural network model
+				\item<2-> Uses the previous state as an input to predict the next state
+				\item<3-> Used in object detection and NLP
+			\end{itemize}
 
-	\begin{frame}[fragile]{How does EINN work?}{}
-	
-	\end{frame}
+		\end{column}
 
-	\section{Results}
+		\begin{column}[T]{.66\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/rnn-vs-fnn.png}
+				\caption{Example structure of RNN and NN~\cite{rnnpic}}
+			\end{figure}
 
-	\begin{frame}[fragile]{Results}{}
-	
-	\end{frame}
+		\end{column}
+
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Background}{PINN}
+
+	\begin{itemize}
+
+		\item Uses physics laws to predict the next state
+		\item Uses PDE (partial differential equation) and ODE (ordinary differential equation) as a loss estimator
+		\item $\text{L}_{\text{data}}$: loss from data fitting
+		\item $\text{L}_{\text{physics}}$: loss from physics laws \newline
+			e.g. $\vec{a}= -\mu\Vert\vec{v}\Vert\vec{v} - \vec{g}$, $\vec{v} = \frac{df}{dt}$, $\vec{a}= \frac{d^{2}f}{dt^{2}}$ \newline \vfill
+			$\text{L}_{\text{physics}} = \frac{1}{N}\sum_{i=0}^{N-1} (-\mu\Vert\frac{df_{i}}{dt_{i}}\Vert\frac{df_{i}}{dt_{i}} - \vec{g} - \frac{d^{2}f_{i}}{dt_{i}^{2}})^{2}$
+		\item $\text{L}_{\text{total}} = \text{L}_{\text{data}} + \text{L}_{\text{physics}}$
+
+	\end{itemize}
+	\vfill
+	Note: $\vec{a}$ is acceleration, $\vec{v}$ is velocity, $\vec{g}$ is gravity, $\mu$ is friction, $f$ is position, $t$ is time, and $N$ is the number of data points.
+
+\end{frame}
+
+\begin{frame}[fragile]{Background}{PINN for Systems Biology}
+
+	\begin{itemize}
+
+		\item Recent works with PINN for Systems Biology~\cite{yazdani, karnia} enables ODE for PINN 
+		\item Uses time $t$ as input for Neural Network $N (t)$ and rate of change in ODE systems $f_{\text{ODE}} (t)$
+		\item Uses $ (\frac{dN (t)}{dt}-f_{\text{ODE}} (t))$ as a loss
+		
+	\end{itemize}
+
+\end{frame}
+
+\section{EINN Schema}
+
+\begin{frame}[fragile]{EINN Schema}{Model summary}
+
+	\begin{figure}
+		\includegraphics[width=0.8\textwidth]{myfigs/scheme.png}
+		\caption{EINN Schema. (a) The training model. (b) Needed gradients to train the model using autograd. (c) ODE losses of feature module and time module. Taken from:~\cite{main}}
+
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{EINN Schema}{Source model (Time module)}
+	\begin{columns}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemasource.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> Source model is a PINN model
+				\item<2-> Input: time
+				\item<3-> Output: embedding of the epidemic ODE states ($D_{e}$ is the lenght of $e_{t}$)
+				\item <4-> Uses PINN for Systems Biology loss
+				\item<5-> Uses autograd to compute loss
+%TODO L_mono and L_param maybe they are in output network
+			\end{itemize}
+		\end{column}
+			
+\end{columns}
+\end{frame}
+
+% \begin{frame}[fragile]{EINN Schema}{Target model (Feature module)}
+% 	\begin{columns}
+		
+% 		\begin{column}[T]{.5\textwidth}
+% 			\begin{figure}
+% 				\includegraphics[width=0.8\textwidth]{myfigs/schematarget.png}
+% 				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+% 			\end{figure}
+% 		\end{column}
+		
+% 		\begin{column}[T]{.5\textwidth}
+% 			\begin{itemize}
+% 				\item<1-> 
+% 				\item<2-> 
+% 				\item<3-> 
+% 				\item <4->
+% 			\end{itemize}
+% 		\end{column}
+			
+% \end{columns}
+% \end{frame}
+
+% \begin{frame}[fragile]{EINN Schema}{Output Network}
+% 	\begin{columns}
+		
+% 		\begin{column}[T]{.5\textwidth}
+% 			\begin{figure}
+% 				\includegraphics[width=0.8\textwidth]{myfigs/schemaoutput.png}
+% 				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+% 			\end{figure}
+% 		\end{column}
+		
+% 		\begin{column}[T]{.5\textwidth}
+% 			\begin{itemize}
+% 				\item<1-> 
+% 				\item<2-> 
+% 				\item<3-> 
+% 				\item <4->
+% 			\end{itemize}
+% 		\end{column}
+			
+% \end{columns}
+% \end{frame}
 
 
-	\appendix
-	
-	\makebibliography
+\section{Results}
 
-	\makethankyou
+
+
+\appendix
+
+\makebibliography
+
+\makethankyou
 
 \end{document}
