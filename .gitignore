@@ -48,3 +48,7 @@
 *.xml
 *.xmpi
 *.xref
+*.fdb_latexmk
+*.fls
+myfigs
+figures
