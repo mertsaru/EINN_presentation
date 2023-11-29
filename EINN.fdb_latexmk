@@ -1,26 +1,26 @@
 # Fdb version 4
-["biber EINN"] 1701123552 "EINN.bcf" "EINN.bbl" "EINN" 1701123759 0
-  "./ref.bib" 1701103729 1366 d7c4458d7d377935d290e752faa24508 ""
-  "EINN.bcf" 1701123758 108591 de988e1db7d35c13e8e3c6e5b35bed31 "pdflatex"
+["biber EINN"] 1701277916 "EINN.bcf" "EINN.bbl" "EINN" 1701277981 0
+  "./ref.bib" 1701274800 1138 f9578a5e1a4fed092e9c8f72bae4a0de ""
+  "EINN.bcf" 1701277981 111227 8be2ab82850b0328f4010e8ee97b73fc "pdflatex"
   (generated)
   "EINN.bbl"
   "EINN.blg"
   (rewritten before read)
-["pdflatex"] 1701123729 "c:/Users/merts/Repo/EINN/EINN.tex" "EINN.pdf" "EINN" 1701123759 0
-  "EINN.aux" 1701123758 6341 6e5eb7965b6557d88cf2febbac62daf6 "pdflatex"
-  "EINN.bbl" 1701123563 5219 05866756b66e61c0b0521128d79698bf "biber EINN"
-  "EINN.nav" 1701123758 2625 12440b90ce56f0cfaedd6eb2bce30fb9 "pdflatex"
-  "EINN.out" 1701123758 568 62c0d74328363afde5d2d183c53c3f35 "pdflatex"
-  "EINN.run.xml" 1701123758 2462 619934114f010c3c856743d091b6a788 "pdflatex"
-  "EINN.tex" 1701123693 10739 1e502dbd92b0597b7046504cdea32962 ""
-  "EINN.toc" 1701123758 217 ba202fd6769446db15858668d8020de1 "pdflatex"
-  "EINN.vrb" 1701123753 751 a40f20dce2b82628a11b29c1504935b6 "pdflatex"
+["pdflatex"] 1701277961 "c:/Users/merts/Repo/EINN/EINN.tex" "EINN.pdf" "EINN" 1701277981 0
+  "EINN.aux" 1701277981 9830 8acc7f8b6d3c28b95a2a38c224c549c4 "pdflatex"
+  "EINN.bbl" 1701277918 6500 7c84d979d4762cc9e2735ce14e5de44d "biber EINN"
+  "EINN.nav" 1701277981 3545 9ada6e371ddeab019bea95bea06cd353 "pdflatex"
+  "EINN.out" 1701277981 563 32ed18d9b712eca6871a67f6e452fa44 "pdflatex"
+  "EINN.run.xml" 1701277981 2462 619934114f010c3c856743d091b6a788 "pdflatex"
+  "EINN.tex" 1701277912 15624 62326cf6593d8bca35c60023b29850ff ""
+  "EINN.toc" 1701277981 216 e510857c11a93cd80423a5947d9c287a "pdflatex"
+  "EINN.vrb" 1701277979 23 dca62bcaa996b81aaa5582847d424965 "pdflatex"
   "beamercolorthemehsmw.sty" 1699639717 5813 9ba9a7b12a90d50ea4abc76b2abd9b14 ""
   "beamerfontthemehsmw.sty" 1699639717 4289 0a50858cae5fce216d64b796347e4fc2 ""
   "beamerinnerthemehsmw.sty" 1699639717 11246 27a2a84c97285e113c219e1cc68be301 ""
   "beamerouterthemehsmw.sty" 1699639717 71609 5fbe2b82db814dd7796075166e7b74e1 ""
   "beamerthemehsmw.sty" 1699639717 19766 15f799a0839b295738b16547974f009f ""
-  "c:/Users/merts/Repo/EINN/EINN.tex" 1701123693 10739 1e502dbd92b0597b7046504cdea32962 ""
+  "c:/Users/merts/Repo/EINN/EINN.tex" 1701277912 15624 62326cf6593d8bca35c60023b29850ff ""
   "c:/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1696574823 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2023/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free1.enc" 1696575460 3042 0e2b14b9be7d01075a4c4591d5d1781b ""
   "c:/texlive/2023/texmf-dist/fonts/enc/dvips/opensans/a_jg4h6q.enc" 1696578284 2952 84fda6c8ae8be17712e9d998ffe48bad ""
@@ -341,7 +341,10 @@
   "figures/iconFacultyWI.pdf" 1699639717 2873 8c91b2305aa8753d7e0371061e9fe622 ""
   "figures/thankyou.jpg" 1699639717 796345 0fa306d948cd3b6dbeb1b5333b40e873 ""
   "myfigs/rnn-vs-fnn.png" 1701011947 129582 ee9d9b75f7193c852f881868ef6b9e6b ""
+  "myfigs/schemafeature.png" 1701161193 173605 be3f7c8cc8a4c1250424aa33fc050f34 ""
+  "myfigs/schemafeature2.png" 1701270704 173451 48ac9cfe238edfea4a96666abfc20410 ""
   "myfigs/schemasource.png" 1701122511 173603 3bc7f13f529f14f39dcb14ae783c99c3 ""
+  "myfigs/schemasource2.png" 1701270677 173268 7a5a63cfd53653ab6e56bb7609c32201 ""
   "myfigs/scheme.png" 1701109208 213324 a3899a9be1d2dc4da7fd6703f9f64394 ""
   (generated)
   "EINN.aux"

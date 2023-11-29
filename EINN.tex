@@ -141,8 +141,8 @@
 		\item $\text{L}_{\text{data}}$: loss from data fitting
 		\item $\text{L}_{\text{physics}}$: loss from physics laws \newline
 			e.g. $\vec{a}= -\mu\Vert\vec{v}\Vert\vec{v} - \vec{g}$, $\vec{v} = \frac{df}{dt}$, $\vec{a}= \frac{d^{2}f}{dt^{2}}$ \newline \vfill
-			$\text{L}_{\text{physics}} = \frac{1}{N}\sum_{i=0}^{N-1} (-\mu\Vert\frac{df_{i}}{dt_{i}}\Vert\frac{df_{i}}{dt_{i}} - \vec{g} - \frac{d^{2}f_{i}}{dt_{i}^{2}})^{2}$
-		\item $\text{L}_{\text{total}} = \text{L}_{\text{data}} + \text{L}_{\text{physics}}$
+			$\text{L}_{\text{physics}} = \frac{1}{N}\sum_{i=0}^{N-1} \left(-\mu\Vert\frac{df_{i}}{dt_{i}}\Vert\frac{df_{i}}{dt_{i}} - \vec{g} - \left(\frac{d^{2}f_{i}}{dt_{i}^{2}}\right)\right)^{2}$
+			\item $\text{L}_{\text{total}} = \text{L}_{\text{data}} + \text{L}_{\text{physics}}$
 
 	\end{itemize}
 	\vfill
@@ -162,19 +162,19 @@
 
 \end{frame}
 
-\section{EINN Schema}
+\section{EINN Model}
 
-\begin{frame}[fragile]{EINN Schema}{Model summary}
+\begin{frame}[fragile]{EINN Model}{Model summary}
 
 	\begin{figure}
 		\includegraphics[width=0.8\textwidth]{myfigs/scheme.png}
-		\caption{EINN Schema. (a) The training model. (b) Needed gradients to train the model using autograd. (c) ODE losses of feature module and time module. Taken from:~\cite{main}}
+		\caption{EINN Model. (a) The training model. (b) Needed gradients to train the model using autograd. (c) ODE losses of feature module and time module. Taken from:~\cite{main}}
 
 	\end{figure}
 
 \end{frame}
 
-\begin{frame}[fragile]{EINN Schema}{Source model (Time module)}
+\begin{frame}[fragile]{EINN Model}{Source model (Time module)}
 	\begin{columns}
 		
 		\begin{column}[T]{.5\textwidth}
@@ -188,64 +188,192 @@
 			\begin{itemize}
 				\item<1-> Source model is a PINN model
 				\item<2-> Input: time
-				\item<3-> Output: embedding of the epidemic ODE states ($D_{e}$ is the lenght of $e_{t}$)
-				\item <4-> Uses PINN for Systems Biology loss
-				\item<5-> Uses autograd to compute loss
-%TODO L_mono and L_param maybe they are in output network
+				\item<3-> Output: embedding of the epidemic ODE states ($e_{t}$)
+				\item <4-> Uses PINN for Systems Biology
+				% \item<5-> Uses autograd to compute loss
+				\item Model freezes when $e_{t} \approx e_{t}^{F}$
 			\end{itemize}
 		\end{column}
 			
 \end{columns}
 \end{frame}
 
-% \begin{frame}[fragile]{EINN Schema}{Target model (Feature module)}
-% 	\begin{columns}
+\begin{frame}[fragile]{EINN Model}{Time module losses}
+	\begin{columns}
 		
-% 		\begin{column}[T]{.5\textwidth}
-% 			\begin{figure}
-% 				\includegraphics[width=0.8\textwidth]{myfigs/schematarget.png}
-% 				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
-% 			\end{figure}
-% 		\end{column}
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemasource2.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
 		
-% 		\begin{column}[T]{.5\textwidth}
-% 			\begin{itemize}
-% 				\item<1-> 
-% 				\item<2-> 
-% 				\item<3-> 
-% 				\item <4->
-% 			\end{itemize}
-% 		\end{column}
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item ODE loss for time module ($L^{\text{ODE}-T}$)~\cite{main}: $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ \frac{ds_{t}}{dt} - f_{\text{ODE}}(s_{t}, \Omega_{t}) \right] ^{2} $
+			\end{itemize}
+		\end{column}
 			
-% \end{columns}
-% \end{frame}
+\end{columns}
+\end{frame}
 
-% \begin{frame}[fragile]{EINN Schema}{Output Network}
-% 	\begin{columns}
+\begin{frame}[fragile]{EINN Model}{Time module losses}
+	\begin{columns}
 		
-% 		\begin{column}[T]{.5\textwidth}
-% 			\begin{figure}
-% 				\includegraphics[width=0.8\textwidth]{myfigs/schemaoutput.png}
-% 				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
-% 			\end{figure}
-% 		\end{column}
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemasource2.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
 		
-% 		\begin{column}[T]{.5\textwidth}
-% 			\begin{itemize}
-% 				\item<1-> 
-% 				\item<2-> 
-% 				\item<3-> 
-% 				\item <4->
-% 			\end{itemize}
-% 		\end{column}
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> According to Wu et al.~\cite{wu}, in the ODE states, Mortality (M) is observed and other states are latent
+				\item<2-> $L^{\text{Data-T}}$~\cite{main}: $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ \hat{M}_{t} - M_{t} \right]^{2}$
+			\end{itemize}
+		\end{column}
 			
-% \end{columns}
-% \end{frame}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{EINN Model}{Time module losses}
+	\begin{columns}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemasource2.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> Adding monoticity loss (loss from latent states) to make learning less challenging using domain knowledge 
+				\item<2->	$L^{\text{Mono}} = \frac{1}{N+1} (\sum_{t=t_{0}}^{t_{N}} \frac{dS_{t}}{dt}\text{ReLU} (\frac{dS_{t}}{dt}) + \sum_{t=t_{0}}^{t_{N}} -1\frac{dR_{t}}{dt}\text{ReLU} (-\frac{dR_{t}}{dt}))$
+			\end{itemize}
+		\end{column}
+			
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{EINN Model}{Time module losses}
+	\begin{columns}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemasource2.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> Dealing time varying ODE model with parameter loss
+				\item<2-> $L^{\text{Param}} = \frac{1}{N+1} \sum_{t=t_{0}}^{t_{N}} \left[ \Omega_{t+1} - \Omega_{t} \right]^{2} $
+			\end{itemize}
+		\end{column}
+			
+\end{columns}
+\end{frame}
+
+
+
+%TODO what is time varying and mechanistic parameters
+%TODO low frequency signals in NN, wang et al 2021b
+
+\begin{frame}[fragile]{EINN Model}{Target model (Feature module)}
+	\begin{columns}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemafeature.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> Target model is an RNN model
+				\item<2-> Input ($x_{t}$): Features relevant to the problem 
+				\item<3-> Output: embedding of the epidemic ODE states ($e_{t}^{F}$)
+				\item <4-> Model freezes when $e_{t} \approx e_{t}^{F}$
+				\item <5-> Loss ($L^{\text{Emb}}$): $\frac{1}{N+1} \sum_{t=t_{0}}^{t_{N}} \left[ e_{t} - e_{t}^{F} \right]^{2} $
+			\end{itemize}
+		\end{column}
+			
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]{EINN Model}{Target module losses}
+	\begin{columns}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemafeature2.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> $e_{t}\approx e_{t}^{F}$ required for gradient trick for ODE loss from feature module
+				\item<2-> $e_{t} \approx e_{t}^{F} \Rightarrow \frac{ds_{t}^{F}}{dt} = \frac{ds_{t}^{F}}{de_{t}^{F}} \frac{de_{t}^{F}}{dt} \approx \frac{ds_{t}^{F}}{de_{t}^{F}} \frac{de_{t}}{dt} $ 
+				\item<3-> Loss ODE from feature module ($L^{\text{ODE}-F}$)~\cite{main}: $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ \frac{ds_{t}^{F}}{de_{t}^{F}}\frac{de_{t}}{dt} - f_{\text{ODE}}(s_{t}^{F}, \Omega_{t}) \right] ^{2} $
+			\end{itemize}
+		\end{column}
+			
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{EINN Model}{Target module losses}
+	\begin{columns}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemafeature2.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> $\hat{M}_{t}^{F}$: predicted mortality using feature module path
+				\item<2-> Loss from data ($L^{\text{Data}-F}$): $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}}\left[ \hat{M}_{t}^{F} - M_{t}\right]^{2}$   
+			\end{itemize}
+		\end{column}
+			
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{EINN Model}{Target module losses}
+	\begin{columns}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemafeature2.png}
+				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}[T]{.5\textwidth}
+			\begin{itemize}
+				\item<1-> Alligning findings from both paths
+				\item<2-> $L^{\text{Output}} = \frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ s_{t} - s_{t}^{F} \right]^{2}$
+			\end{itemize}
+		\end{column}
+			
+\end{columns}
+\end{frame}
 
 
 \section{Results}
 
+\begin{frame}[fragile]{Results}
 
+
+\end{frame}
 
 \appendix
 
