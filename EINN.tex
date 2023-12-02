@@ -86,23 +86,24 @@
 
 	\begin{itemize}
 		\item<1-> EINN is a (\textbf{Neural Network}) machine learning model to predict epidemic dynamics~\cite{main}
-		\item<2-> EINN combines the knowledge of PINN, RNN, and ODE~\cite{main}
+		\item <2-> Mechanistic models (ODE models e.g SIR/SEIRM) good at trend approximation~\cite{main}
+		\item <3-> RNN powered epidemic models good at short and long term epidemic prediction~\cite{main}
+		\item<4-> EINN combines the knowledge of PINN, RNN, and ODE~\cite{main}
 	\end{itemize}
 
 \end{frame}
 
 \section{Background}
 
-\begin{frame}[fragile]{Background}{SIR epidemic models}
+\begin{frame}[fragile]{Background}{Mechanistic epidemic models}
 	\begin{itemize}
-		\item<1-> Statical way to predict epidemic dynamics
-		\item<2-> Uses ODE to predict
-		\item<3-> Have many models: SIR, SEIR, SEIRM etc.
-		\item<4-> Susceptible (S): $\frac{dS_{t}}{dt} = - \beta_{t} \frac{S_{t}I_{t}}{N}$
-		\item<5-> Exposed (E): $\frac{dE_{t}}{dt} = \beta_{t} \frac{S_{t}I_{t}}{N} - \alpha_{t}E_{t}$
-		\item<6-> Infected (I): $\frac{dI_{t}}{dt} = \alpha_{t}E_{t} - \gamma_{t}I_{t} - \mu_{t}I_{t}$
-		\item<7-> Recovered (R): $ \frac{dR_{t}}{dt} = \gamma_{t} I_{t}$
-		\item<8-> Mortality (M): $\frac{dM_{t}}{dt} = \mu_{t}I_{t}$
+		\item<1-> Uses ODE to predict
+		\item<2-> Have many models: SIR, SEIR, SEIRM etc.
+		\item<3-> Susceptible (S): $\frac{dS_{t}}{dt} = - \beta_{t} \frac{S_{t}I_{t}}{N}$
+		\item<4-> Exposed (E): $\frac{dE_{t}}{dt} = \beta_{t} \frac{S_{t}I_{t}}{N} - \alpha_{t}E_{t}$
+		\item<5-> Infected (I): $\frac{dI_{t}}{dt} = \alpha_{t}E_{t} - \gamma_{t}I_{t} - \mu_{t}I_{t}$
+		\item<6-> Recovered (R): $ \frac{dR_{t}}{dt} = \gamma_{t} I_{t}$
+		\item<7-> Mortality (M): $\frac{dM_{t}}{dt} = \mu_{t}I_{t}$
 	\end{itemize}
 	\vfill
 	Note: $\Omega_{t} =\{\alpha_{t}, \beta_{t}, \gamma_{t}, \mu_{t} \}$ are parameters, $N$ is the population number, and $t$ is time.
@@ -136,13 +137,13 @@
 
 	\begin{itemize}
 
-		\item Uses physics laws to predict the next state
-		\item Uses PDE (partial differential equation) and ODE (ordinary differential equation) as a loss estimator
-		\item $\text{L}_{\text{data}}$: loss from data fitting
-		\item $\text{L}_{\text{physics}}$: loss from physics laws \newline
+		\item<1-> Uses physics laws to predict the next state
+		\item<2-> Uses PDE (partial differential equation) and ODE (ordinary differential equation) as a loss estimator
+		\item<3-> $\text{L}_{\text{data}}$: loss from data fitting
+		\item<4-> $\text{L}_{\text{physics}}$: loss from physics laws \newline
 			e.g. $\vec{a}= -\mu\Vert\vec{v}\Vert\vec{v} - \vec{g}$, $\vec{v} = \frac{df}{dt}$, $\vec{a}= \frac{d^{2}f}{dt^{2}}$ \newline \vfill
 			$\text{L}_{\text{physics}} = \frac{1}{N}\sum_{i=0}^{N-1} \left(-\mu\Vert\frac{df_{i}}{dt_{i}}\Vert\frac{df_{i}}{dt_{i}} - \vec{g} - \left(\frac{d^{2}f_{i}}{dt_{i}^{2}}\right)\right)^{2}$
-			\item $\text{L}_{\text{total}} = \text{L}_{\text{data}} + \text{L}_{\text{physics}}$
+		\item<5-> $\text{L}_{\text{total}} = \text{L}_{\text{data}} + \text{L}_{\text{physics}}$
 
 	\end{itemize}
 	\vfill
@@ -154,9 +155,9 @@
 
 	\begin{itemize}
 
-		\item Recent works with PINN for Systems Biology~\cite{yazdani, karnia} enables ODE for PINN 
-		\item Uses time $t$ as input for Neural Network $N (t)$ and rate of change in ODE systems $f_{\text{ODE}} (t)$
-		\item Uses $ (\frac{dN (t)}{dt}-f_{\text{ODE}} (t))$ as a loss
+		\item<1-> Recent works with PINN for Systems Biology~\cite{yazdani, karnia}: better PINN for SIR mechanics 
+		\item<2-> Uses time $t$ as input for Neural Network $N (t)$ and rate of change in ODE systems $f_{\text{ODE}} (t)$
+		\item<3-> Uses $ (\frac{dN (t)}{dt}-f_{\text{ODE}} (t))$ as a loss
 		
 	\end{itemize}
 
@@ -186,12 +187,11 @@
 		
 		\begin{column}[T]{.5\textwidth}
 			\begin{itemize}
-				\item<1-> Source model is a PINN model
+				\item<1-> Source model is a PINN for Systems Biology
 				\item<2-> Input: time
 				\item<3-> Output: embedding of the epidemic ODE states ($e_{t}$)
-				\item <4-> Uses PINN for Systems Biology
 				% \item<5-> Uses autograd to compute loss
-				\item Model freezes when $e_{t} \approx e_{t}^{F}$
+				\item<5-> Model freezes when $e_{t} \approx e_{t}^{F}$
 			\end{itemize}
 		\end{column}
 			
@@ -210,7 +210,8 @@
 		
 		\begin{column}[T]{.5\textwidth}
 			\begin{itemize}
-				\item ODE loss for time module ($L^{\text{ODE}-T}$)~\cite{main}: $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ \frac{ds_{t}}{dt} - f_{\text{ODE}}(s_{t}, \Omega_{t}) \right] ^{2} $
+				\item ODE loss for time module ($L^{\text{ODE}-T}$)~\cite{main}: $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ \frac{ds_{t}}{dt} - f_{\text{ODE}}(s_{t}, \Omega_{t}) \right] ^{2} $\newline
+				$s_{t}$: predicted ODE states at time t using time module path
 			\end{itemize}
 		\end{column}
 			
@@ -229,8 +230,9 @@
 		
 		\begin{column}[T]{.5\textwidth}
 			\begin{itemize}
-				\item<1-> According to Wu et al.~\cite{wu}, in the ODE states, Mortality (M) is observed and other states are latent
-				\item<2-> $L^{\text{Data-T}}$~\cite{main}: $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ \hat{M}_{t} - M_{t} \right]^{2}$
+				\item<1->In the ODE states, Mortality (M) is observed and other states are latent~\cite{wu} 
+				\item<2-> $L^{\text{Data-T}}$~\cite{main}: $\frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ \hat{M}_{t} - M_{t} \right]^{2}$ \newline
+				M: mortality, $\hat{M}_{t}$: predicted mortality using time module path
 			\end{itemize}
 		\end{column}
 			
@@ -269,7 +271,7 @@
 		
 		\begin{column}[T]{.5\textwidth}
 			\begin{itemize}
-				\item<1-> Dealing time varying ODE model with parameter loss
+				\item<1-> Adding parameter to loss to track parameter change with time
 				\item<2-> $L^{\text{Param}} = \frac{1}{N+1} \sum_{t=t_{0}}^{t_{N}} \left[ \Omega_{t+1} - \Omega_{t} \right]^{2} $
 			\end{itemize}
 		\end{column}
@@ -352,15 +354,16 @@
 		
 		\begin{column}[T]{.5\textwidth}
 			\begin{figure}
-				\includegraphics[width=0.8\textwidth]{myfigs/schemafeature2.png}
+				\includegraphics[width=0.8\textwidth]{myfigs/schemaoutput.png}
 				\caption{Cropped model summary showing the training summary. Cropped from:~\cite{main}}
 			\end{figure}
 		\end{column}
 		
 		\begin{column}[T]{.5\textwidth}
 			\begin{itemize}
-				\item<1-> Alligning findings from both paths
-				\item<2-> $L^{\text{Output}} = \frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ s_{t} - s_{t}^{F} \right]^{2}$
+				\item <1-> N$_{\text{output}}$ feed-forward Neural Network
+				\item<2-> Alligning findings from both paths
+				\item<3-> $L^{\text{Output}} = \frac{1}{N+1}\sum_{t=t_{0}}^{t_{N}} \left[ s_{t} - s_{t}^{F} \right]^{2}$
 			\end{itemize}
 		\end{column}
 			
@@ -372,8 +375,34 @@
 
 \begin{frame}[fragile]{Results}
 
+	\begin{itemize}
+
+		\item Generation: The NN learns directly from ODE generated data~\cite{main, wang, sanchez}
+		\item Regularization: The NN predicts states and parameters of an ODE and learns from the parameters~\cite{main, gao, gaw}
+		\item Ensembling: Combines predictions of RNN and SEIRM/SIR outputs in one NN for a final prediction~\cite{main, adiga, yamana}
+		\item EINNs-NoGradMatching: skipping $e_{t} \approx e_{t}^{F}$ part~\cite{main}
+
+	\end{itemize}
 
 \end{frame}
+
+\begin{frame}[fragile]{Results}
+
+	\begin{figure}
+		\includegraphics[width=0.5\textwidth]{myfigs/result.png}
+		\caption{Short-term, Long-term, and Trend results. NR: Normalized RMSE (Lower is better), ND: Normal Deviation (Lower is better) PC: Pearson Correlation (Higher is better). Image taken from:~\cite{main}}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Results}
+
+\begin{itemize}
+	\item Better short and long term prediction than RNN and Mechanistic model (SEIRM)
+	\item Better trend correlation than RNN and sligtly less trend correlation than Mechanistic model (SEIRM)
+\end{itemize}
+\end{frame}
+
 
 \appendix
 
