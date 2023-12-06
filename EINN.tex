@@ -251,7 +251,8 @@
 		
 		\begin{column}[T]{.5\textwidth}
 			\begin{itemize}
-				\item<1-> Adding monoticity loss (loss from latent states) to make learning less challenging using domain knowledge 
+				\item<1-> Adding monoticity loss (loss from latent states) to make learning less challenging using domain knowledge~\cite{murat,main}
+				\item <2-> S is monotonically decreasing and R is monotonically increasing~\cite{main}
 				\item<2->	$L^{\text{Mono}} = \frac{1}{N+1} (\sum_{t=t_{0}}^{t_{N}} \frac{dS_{t}}{dt}\text{ReLU} (\frac{dS_{t}}{dt}) + \sum_{t=t_{0}}^{t_{N}} -1\frac{dR_{t}}{dt}\text{ReLU} (-\frac{dR_{t}}{dt}))$
 			\end{itemize}
 		\end{column}
@@ -398,8 +399,11 @@
 \begin{frame}[fragile]{Results}
 
 \begin{itemize}
-	\item Better short and long term prediction than RNN and Mechanistic model (SEIRM)
-	\item Better trend correlation than RNN and sligtly less trend correlation than Mechanistic model (SEIRM)
+	\item<1-> Better short and long term prediction than RNN and Mechanistic model (SEIRM)
+	\item<2-> Better trend correlation than RNN and sligtly less trend correlation than Mechanistic model
+	\item <3-> Not sensitive to parameter change~\cite{main}
+	\item <4-> only L$^{\text{output}}$ effectively contributes to EINN-NoGrad~\cite{main}
+	\item <5-> Even PINN learns from ODE, they still generate different outputs~\cite{main}
 \end{itemize}
 \end{frame}
 

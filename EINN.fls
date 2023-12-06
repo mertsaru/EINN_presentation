@@ -1,4 +1,4 @@
-PWD c:/Users/merts/repo/EINN
+PWD c:/Users/merts/Repo/EINN
 INPUT c:/texlive/2023/texmf.cnf
 INPUT c:/texlive/2023/texmf-dist/web2c/texmf.cnf
 INPUT c:/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt
@@ -937,6 +937,18 @@ INPUT ./myfigs/result.png
 INPUT ./myfigs/result.png
 INPUT ./myfigs/result.png
 OUTPUT EINN.vrb
+INPUT ./EINN.vrb
+INPUT ./EINN.vrb
+INPUT EINN.vrb
+INPUT ./EINN.vrb
+INPUT ./EINN.vrb
+INPUT EINN.vrb
+INPUT ./EINN.vrb
+INPUT ./EINN.vrb
+INPUT EINN.vrb
+INPUT ./EINN.vrb
+INPUT ./EINN.vrb
+INPUT EINN.vrb
 INPUT ./EINN.vrb
 INPUT ./EINN.vrb
 INPUT EINN.vrb
